@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax - CEP</title>
+</head>
+<body>
+    <h1>Ajax - CEP</h1>
+    <label>CEP</label>
+    <input type="text" id="cep" inputmode="numeric" placeholder="Digite um CEP">
+    <button id="executar">Pesquisar</button>
+
+    <div id="endereco"></div>
+
+</body>
+<script>
+    const btn = document.querySelector ("#executar")
+
+    btn.addEventListener("click", () =>{
+        //1) criar um objeto XMLHttpRequest
+        const xhttp = new XMLHttpRequest ()
+        const endereco = document.querySelector ("#endereco")
+        const iptCep = document.querySelector ("#cep")
+        //2) configurar o objeto
+
+        let url = `https://api.postmon.com.br/v1/cep/${iptCep.value}` //.value só para puxar o valor e não o input inteiro
+        xhttp.open("GET", url) //configurando o xhttp dizendo o metodo de envio e oque enviar (no caso a variavel let)
+
+        //3) enviar a requisição
+        xhttp.send() // pegando o xhttp q foi configurado, e só enviando
+
+        //4) acompanhar a mudança de estado do objeto
+        xhttp.onreadystatechange = function(){
+            //o objeto hxhttp mudou o estado para "tenho uma resposta" (4)  e deu tudo certo (status == 200)
+            if(this.readyState == 4 && this.status == 200){
+                endereco.innerHTML = this.responseText
+            }
+        }
+        
+    })
+</script>
+</html>
